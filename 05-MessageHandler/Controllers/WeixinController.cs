@@ -35,11 +35,16 @@ namespace _05_MessageHandler.Controllers
         }
 
         [HttpPost]
-        [ActionName("")]
+        [ActionName("Index")]
         public ActionResult Post(PostModel postModel)
         {
-            // 
+            postModel.EncodingAESKey = EncodingAESKey;
+
+            //创建MessgeHandler实例
             var messageHandler = new CustomerMessageHandler(Request.InputStream, postModel);
+            
+            // 去重
+            
             // 执行
             messageHandler.Execute();
             // 返回
