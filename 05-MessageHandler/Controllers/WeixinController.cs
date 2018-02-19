@@ -6,6 +6,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.Entities.Request;
+using SenparcClass.Service;
 
 namespace _05_MessageHandler.Controllers
 {
@@ -31,6 +32,18 @@ namespace _05_MessageHandler.Controllers
                 return Content("failed:" + postModel.Signature + "," + CheckSignature.GetSignature(postModel.Timestamp, postModel.Nonce, Token) + "。" +
                                "如果你在浏览器中看到这句话，说明此地址可以被作为微信公众账号后台的Url，请注意保持Token一致。");
             }
+        }
+
+        [HttpPost]
+        [ActionName("")]
+        public ActionResult Post(PostModel postModel)
+        {
+            // 
+            var messageHandler = new CustomerMessageHandler(Request.InputStream, postModel);
+            // 执行
+            messageHandler.Execute();
+            // 返回
+            return Content(messageHandler.FinalResponseDocument.ToString());
         }
     }
 }

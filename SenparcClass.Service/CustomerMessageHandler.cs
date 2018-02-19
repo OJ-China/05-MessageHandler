@@ -9,6 +9,7 @@ using Senparc.Weixin.MP;
 using Senparc.Weixin.MP.AppStore;
 using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Entities.Request;
+using Senparc.Weixin.MP.Helpers;
 using Senparc.Weixin.MP.MessageHandlers;
 
 namespace SenparcClass.Service
@@ -29,7 +30,12 @@ namespace SenparcClass.Service
 
         public override IResponseMessageBase DefaultResponseMessage(IRequestMessageBase requestMessage)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            var responseMessage = requestMessage.CreateResponseMessage<ResponseMessageText>();
+            {
+                responseMessage.Content = "当前服务器时间" + DateTime.Now;
+                return responseMessage;
+            }
         }
     }
 }
